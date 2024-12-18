@@ -58,7 +58,7 @@ export default function About() {
       </div>
 
       {/* Mission Section */}
-      <div className="py-16 bg-white">
+      <div className="py-16 bg-background">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold mb-4">Our Mission</h2>
@@ -77,10 +77,10 @@ export default function About() {
       </div>
 
       {/* Team Section */}
-      <div className="py-16 bg-gray-50">
+      <div className="py-16 bg-background">
         <div className="max-w-7xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12">Our Team</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid justify-center w-full grid-cols-1 md:grid-cols-3 gap-8">
             {team.map((member, index) => (
               <TeamMember key={index} {...member} />
             ))}

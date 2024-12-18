@@ -1,19 +1,35 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CircuitBoard, User, ShoppingCart, Menu, X } from 'lucide-react';
 import { ModeToggle } from './mode-toggle';
 import { Separator } from '@radix-ui/react-dropdown-menu';
 
 export default function Navbar() {
-
   const [menuOpen, setMenuOpen] = useState(false);
+
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
+  const menuRef: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
+
+  // close the mobile menu on click outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
   return (
     <nav className="bg-background fixed w-full z-20 shadow-lg ">
-      <div className="w-full mx-auto px-4 z-20 ">
-        <div className="flex  z-20 justify-between h-16">
+      <div className="w-full mx-auto px-4">
+        <div className="flex justify-between h-16 items-center">
           <div className="flex items-center">
             <Link to="/" className="flex items-center space-x-2">
               <CircuitBoard className="h-8 w-8 text-blue-600" />
@@ -21,36 +37,37 @@ export default function Navbar() {
             </Link>
             <div className="hidden md:flex items-center space-x-4 ml-8">
               <Link to="/products" className="text-primary hover:text-blue-600 px-3 py-2">Products</Link>
-              {/* <Link to="/courses" className="text-primary hover:text-blue-600 px-3 py-2">Courses</Link> */}
               <Link to="/about" className="text-primary hover:text-blue-600 px-3 py-2">About</Link>
               <Link to="/careers" className="text-primary hover:text-blue-600 px-3 py-2">Careers</Link>
-              <ModeToggle/>
+              <ModeToggle />
             </div>
-           
           </div>
           <div className="flex items-center space-x-4">
-            <Link to="/cart" className="text-primary hover:text-blue-600">
-              <ShoppingCart className="h-6 w-6" />
-            </Link>
             <Link to="/profile" className="text-primary hover:text-blue-600">
               <User className="h-6 w-6" />
             </Link>
-            {menuOpen ? (
-            <Menu
-              onClick={toggleMenu}
-              className="text-3xl  cursor-pointer md:hidden z-50 duration-500 animate-fadeIn"
-            />
-          ) : (
-            <X
-              onClick={toggleMenu}
-              className="text-3xl  cursor-pointer md:hidden z-50 animate-fadeIn duration-500"
-            />
-          )}
+            <button onClick={toggleMenu} className="md:hidden text-3xl cursor-pointer">
+              {menuOpen ? (
+                <X className="text-3xl" />
+              ) : (
+                <Menu className="text-3xl" />
+              )}
+            </button>
           </div>
         </div>
+        {/* Mobile Menu */}
+        {menuOpen && (
+          <div ref={menuRef} className="md:hidden animate slide-in-from-top-2 duration-0 absolute top-16 left-0 w-full bg-background shadow-lg z-10">
+            <div className="flex flex-col items-center space-y-4 py-4">
+              <Link to="/products" className="text-primary hover:text-blue-600">Products</Link>
+              <Link to="/about" className="text-primary hover:text-blue-600">About</Link>
+              <Link to="/careers" className="text-primary hover:text-blue-600">Careers</Link>
+              <ModeToggle />
+            </div>
+          </div>
+        )}
       </div>
-      <Separator className='mb-3'/>
+      <Separator className="mb-3" />
     </nav>
-
   );
 }

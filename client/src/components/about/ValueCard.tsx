@@ -8,7 +8,7 @@ interface ValueCardProps {
 
 export default function ValueCard({ icon, title, description }: ValueCardProps) {
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md text-center">
+    <div className="bg-background border p-6 rounded-lg shadow-md text-center">
       <div className="inline-block p-3 bg-blue-50 rounded-full mb-4">
         {icon}
       </div>

@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ProductCard from '../components/products/ProductCard';
 import ProductFilters from '../components/products/ProductFilters';
 import { Product } from '../types';
 import { ProductCategory, ProductFiltersType as Filters } from '../types/product';
+import EnquiryForm from '@/components/enquiry-form';
+import { set } from 'react-hook-form';
 
 // Mock data - In a real app, this would come from an API
 const mockProducts: Product[] = [
@@ -53,10 +55,13 @@ const categories: ProductCategory[] = [
 export default function Products() {
   const [filters, setFilters] = useState<Filters>({
     category: '',
-    priceRange: [0, 1000],
+    priceRange: [0, 100000],
     searchQuery: ''
   });
-
+  const [showForm, setShowForm] = useState<Boolean>(false);
+  const showFormHandler = () => {
+    setShowForm(!showForm);
+  }
   const filteredProducts = mockProducts.filter(product => {
     const matchesCategory = !filters.category || product.category === filters.category;
     const matchesPrice = product.price <= filters.priceRange[1];
@@ -66,10 +71,30 @@ export default function Products() {
     return matchesCategory && matchesPrice && matchesSearch;
   });
 
+  
+  const menuRef: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setShowForm(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
+    <>
+     <div ref={menuRef} className={`${showForm?"block":"hidden"} min-w-72 z-10 enquiry-form fixed top-[50%] left-[50%] -translate-x-2/4 -translate-y-2/4 w-fit h-fit p-10 border rounded-lg  bg-background  flex items-center justify-center`}>
+        <EnquiryForm/>
+      </div>
+    <div className={`max-w-7xl mx-auto px-4 py-8 ${showForm?"blur-sm pointer-events-none":""} `}>
       <h1 className="text-3xl font-bold mb-8">Our Products</h1>
-      
+     
       <div className="flex flex-col md:flex-row gap-8">
         <div className="md:w-1/4">
           <ProductFilters
@@ -82,7 +107,7 @@ export default function Products() {
         <div className="md:w-3/4 ">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredProducts.map(product => (
-              <ProductCard key={product.id} product={product} />
+              <ProductCard onEnquire={showFormHandler} key={product.id} product={product} />
             ))}
           </div>
           
@@ -94,5 +119,6 @@ export default function Products() {
         </div>
       </div>
     </div>
+    </>
   );
 }

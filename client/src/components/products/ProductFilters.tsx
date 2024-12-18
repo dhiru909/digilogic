@@ -60,7 +60,7 @@ export default function ProductFilters({ categories, filters, onFilterChange }: 
           <input
             type="range"
             min="0"
-            max="1000"
+            max="100000"
             value={filters.priceRange[1]}
             onChange={(e) => onFilterChange({
               ...filters,
@@ -69,7 +69,7 @@ export default function ProductFilters({ categories, filters, onFilterChange }: 
             className="w-full"
           />
           <span className="text-gray-600">
-            Up to ${filters.priceRange[1]}
+            Up to ₹{filters.priceRange[1]}
           </span>
         </div>
       </div>

@@ -9,7 +9,7 @@ interface TeamMemberProps {
 
 export default function TeamMember({ name, role, image, bio }: TeamMemberProps) {
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden">
+    <div className="bg-background border rounded-lg shadow-md overflow-hidden">
       <img
         src={image}
         alt={name}
