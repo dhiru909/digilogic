@@ -43,8 +43,8 @@ export default function ProductFilters({ categories, filters, onFilterChange }: 
               <input
                 type="radio"
                 name="category"
-                value={category.id}
-                checked={filters.category === category.id}
+                value={category.name}
+                checked={filters.category === category.name}
                 onChange={(e) => onFilterChange({ ...filters, category: e.target.value })}
                 className="mr-2"
               />

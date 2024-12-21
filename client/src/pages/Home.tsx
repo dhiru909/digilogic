@@ -1,7 +1,6 @@
-import React from 'react';
+
 import { Link } from 'react-router-dom';
 import { ArrowRight, Cpu, Book, Users } from 'lucide-react';
-import { Separator } from '@radix-ui/react-dropdown-menu';
 
 export default function Home() {
   return (
@@ -65,7 +64,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12">Featured Products</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[1, 2, 3].map((i) => (
+            {[1].map((i) => (
               <div key={i} className="bg-background border rounded-lg shadow-lg overflow-hidden">
                 <img
                   src={`https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?auto=format&fit=crop&w=800`}
@@ -76,7 +75,7 @@ export default function Home() {
                   <h3 className="text-xl font-semibold mb-2">Starter Kit {i}</h3>
                   <p className="text-muted-foreground mb-4">Perfect for beginners to learn digital logic</p>
                   <Link
-                    to={`/products/${i}`}
+                    to={`/products`}
                     className="inline-flex items-center text-blue-600 hover:text-blue-700"
                   >
                     Learn More <ArrowRight className="ml-2 h-4 w-4" />

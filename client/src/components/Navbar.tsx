@@ -1,8 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {  useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { CircuitBoard, User, ShoppingCart, Menu, X } from 'lucide-react';
+import { CircuitBoard, Menu, X } from 'lucide-react';
 import { ModeToggle } from './mode-toggle';
-import { Separator } from '@radix-ui/react-dropdown-menu';
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -13,25 +12,25 @@ export default function Navbar() {
   const menuRef: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
 
   // close the mobile menu on click outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        setMenuOpen(false);
-      }
-    };
+  // useEffect(() => {
+  //   const handleClickOutside = (event: MouseEvent) => {
+  //     if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+  //       setMenuOpen(false);
+  //     }
+  //   };
 
-    document.addEventListener('mousedown', handleClickOutside);
+  //   document.addEventListener('mousedown', handleClickOutside);
 
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
+  //   return () => {
+  //     document.removeEventListener('mousedown', handleClickOutside);
+  //   };
+  // }, []);
   return (
     <nav className="bg-background fixed w-full z-20 shadow-lg ">
       <div className="w-full mx-auto px-4">
         <div className="flex justify-between h-16 items-center">
-          <div className="flex items-center">
-            <Link to="/" className="flex items-center space-x-2">
+          <div className="flex items-center  w-full content-between">
+            <Link to="/" className="flex items-center ">
               <CircuitBoard className="h-8 w-8 text-blue-600" />
               <span className="font-bold text-xl">DigiLogic</span>
             </Link>
@@ -43,9 +42,9 @@ export default function Navbar() {
             </div>
           </div>
           <div className="flex items-center space-x-4">
-            <Link to="/profile" className="text-primary hover:text-blue-600">
+            {/* <Link to="/profile" className="text-primary hover:text-blue-600">
               <User className="h-6 w-6" />
-            </Link>
+            </Link> */}
             <button onClick={toggleMenu} className="md:hidden text-3xl cursor-pointer">
               {menuOpen ? (
                 <X className="text-3xl" />
@@ -67,7 +66,6 @@ export default function Navbar() {
           </div>
         )}
       </div>
-      <Separator className="mb-3" />
     </nav>
   );
 }

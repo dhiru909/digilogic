@@ -1,11 +1,9 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
 import { ShoppingCart } from 'lucide-react';
 import { Product } from '../../types';
 
 interface ProductCardProps {
   product: Product;
-  onEnquire: () => void; // or any other type that makes sense for your use case
+  onEnquire: (_id:string) => void; // or any other type that makes sense for your use case
 
   
 }
@@ -27,7 +25,7 @@ export default function ProductCard({ product,onEnquire }: ProductCardProps) {
           ₹{product.price.toFixed(2)}
           </span>
           <button onClick={()=>{
-            onEnquire();
+            onEnquire(product._id);
           }} className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center hover:bg-blue-700 transition-colors">
             <ShoppingCart className="w-5 h-5 mr-2" />
             Enquire

@@ -1,5 +1,3 @@
-import { Product } from './index';
-
 export interface ProductCategory {
   id: string;
   name: string;
