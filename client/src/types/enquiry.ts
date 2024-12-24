@@ -1,5 +1,5 @@
 export interface Enquiry {
-    id: string;
+    _id: string;
     name:string;
     email: string;
     phone?: string;
@@ -8,3 +8,7 @@ export interface Enquiry {
     productId:string;
     status: 'new' | 'read' | 'replied';
   }
+  export type Cate =  'new' | 'read' | 'replied';
+export interface EnquiryFilterType{
+    category:  Cate[];
+}

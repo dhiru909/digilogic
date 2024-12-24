@@ -38,14 +38,14 @@ export default function EnquiryList({
   }
 
   return (
-    <div className="bg-background rounded-lg border shadow overflow-hidden">
+    <div className="bg-background rounded-lg border shadow overflow-auto">
       <div className="divide-y">
         {enquiries.map((enquiry) => (
           <button
-            key={enquiry.id}
+            key={enquiry._id}
             onClick={() => onSelect(enquiry)}
             className={`w-full text-left p-4 hover:bg-muted ${
-              selectedId === enquiry.id ? 'bg-background' : ''
+              selectedId === enquiry._id ? 'bg-background' : ''
             }`}
           >
             <div className="flex items-start justify-between rounded-lg">

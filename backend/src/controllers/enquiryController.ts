@@ -6,8 +6,6 @@ import { IEnquiry } from '../types/enquiry';
 
 // Get all enquiries
 export const getEnquiries = asyncHandler(async (req: Request, res: Response) => {
-    console.log(req.query);
-    
   const enquiries = await Enquiry.find({
     status: { $in: req.query.status }
   }).populate("productId", "name").sort({ createdAt: -1 });

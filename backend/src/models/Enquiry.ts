@@ -35,5 +35,17 @@ const enquirySchema = new mongoose.Schema({
     default: Date.now
   }
 });
+// postSchema.pre('remove', async function(next) {
 
+//     const user = await User.findById(this.author);
+  
+//     if (user) {
+  
+//       await Post.deleteMany({ author: user._id }); // Delete all posts related to the user
+  
+//     }
+  
+//     next();
+  
+//   });
 export const Enquiry = mongoose.model<IEnquiryDocument>('Enquiry', enquirySchema);

@@ -37,7 +37,8 @@ export default function ProductManagement() {
         error={error}
         onEdit={(product) => {
             setEditingProduct(product)
-            setIsFormOpen(true);}}
+            setIsFormOpen(true);
+        }}
         onRefetch={refetch}
       />
 

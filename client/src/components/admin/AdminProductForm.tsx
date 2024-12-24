@@ -60,8 +60,8 @@ export default function AdminProductForm({ product, onClose, onSuccess }: AdminP
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-      <div className="bg-background rounded-lg p-8 max-w-md w-full">
+    <div className="fixed overflow-y-scroll z-20  inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+      <div className="bg-background rounded-lg p-8 max-w-md w-fit">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold">
             {product ? 'Edit Product' : 'Add Product'}

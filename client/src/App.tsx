@@ -10,6 +10,9 @@ import { ThemeProvider } from './components/theme-provider';
 import ScrollToTopButton from './components/scroll-to-top-button';
 import Admin from './pages/Admin';
 import { Toaster } from './components/ui/toaster';
+import Careers from './pages/Careers';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
 
 export default function App() {
   return (
@@ -22,9 +25,13 @@ export default function App() {
         <main className="flex-grow mt-16">
           <Routes>
             <Route path="/admin321000" element={<Admin/>} ></Route>
-            <Route path='/admin321000/products' element={<Admin/>}></Route>
+            {/* <Route path='/admin321000/products' element={<Admin/>}></Route> */}
             <Route path="/" element={<Home />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/careers" element={<Careers />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+          
             <Route path="/about" element={<About />} />
             <Route path="/products" element={<Products />} />
           </Routes>

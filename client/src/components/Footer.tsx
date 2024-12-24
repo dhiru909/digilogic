@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { CircuitBoard, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
+import { CircuitBoard, Facebook, Twitter, Instagram, Linkedin, Youtube } from 'lucide-react';
 import { Separator } from './ui/separator';
 
 export default function Footer() {
@@ -12,7 +12,7 @@ export default function Footer() {
           <div>
             <div className="flex items-center space-x-2">
               <CircuitBoard className="h-8 w-8 text-blue-400" />
-              <span className="font-bold text-xl">DigiLogic</span>
+              <span className="font-bold text-xl">ApnaVision</span>
             </div>
             <p className="mt-4 text-gray-400">Empowering the next generation of digital innovators</p>
           </div>
@@ -20,7 +20,7 @@ export default function Footer() {
             <h3 className="font-semibold text-lg mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li><Link to="/products" className="text-gray-400 hover:text-white">Products</Link></li>
-              <li><Link to="/courses" className="text-gray-400 hover:text-white">Courses</Link></li>
+              {/* <li><Link to="/courses" className="text-gray-400 hover:text-white">Courses</Link></li> */}
               <li><Link to="/about" className="text-gray-400 hover:text-white">About Us</Link></li>
               <li><Link to="/careers" className="text-gray-400 hover:text-white">Careers</Link></li>
             </ul>
@@ -37,15 +37,16 @@ export default function Footer() {
           <div>
             <h3 className="font-semibold text-lg mb-4">Connect With Us</h3>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-white"><Facebook /></a>
-              <a href="#" className="text-gray-400 hover:text-white"><Twitter /></a>
+              {/* <a href="#" className="text-gray-400 hover:text-white"><Facebook /></a> */}
+              {/* <a href="#" className="text-gray-400 hover:text-white"><Twitter /></a> */}
               <a href="#" className="text-gray-400 hover:text-white"><Instagram /></a>
+              <a href="#" className="text-gray-400 hover:text-white"><Youtube /></a>
               <a href="#" className="text-gray-400 hover:text-white"><Linkedin /></a>
             </div>
           </div>
         </div>
         <div className=" border-gray-800 mt-8 pt-8 text-center text-gray-400">
-          <p>&copy; {new Date().getFullYear()} DigiLogic. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} ApnaVision. All rights reserved.</p>
         </div>
       </div>
     </footer>

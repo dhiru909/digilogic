@@ -5,6 +5,7 @@ import {
   updateEnquiryStatus,
   deleteEnquiry
 } from '../controllers/enquiryController';
+import rateLimiter from '../middleware/rateLimiter';
 
 const router = Router();
 

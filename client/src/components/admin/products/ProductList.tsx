@@ -69,7 +69,7 @@ export default function ProductList({
         <tbody className="bg-background divide-y divide-gray-200">
           {products.map((product) => (
             <tr key={product._id}>
-              <td className="px-6 py-4 whitespace-nowrap">
+              <td className="px-6 h-fit py-4 whitespace-nowrap">
                 <div className="flex items-center">
                   <img
                     className="h-10 w-10 rounded-full object-cover"
@@ -80,7 +80,7 @@ export default function ProductList({
                     <div className="text-sm font-medium text-primary">
                       {product.name}
                     </div>
-                    <div className="text-sm text-gray-500">
+                    <div className="text-sm text-wrap max-w-80 text-gray-500">
                       {product.description}
                     </div>
                   </div>

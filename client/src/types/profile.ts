@@ -1,3 +1,5 @@
+import { Course, User } from ".";
+
 export interface UserProfile extends User {
   avatar?: string;
   bio?: string;

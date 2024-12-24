@@ -4,7 +4,7 @@ import { Product } from '@/types/index';
 export function useProductFiltering(products: Product[]) {
   const [filters, setFilters] = useState<ProductFiltersType>({
     category: '',
-    priceRange: [0, 1000],
+    priceRange: [0, 100000],
     searchQuery: ''
   });
 

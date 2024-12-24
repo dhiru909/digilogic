@@ -38,7 +38,7 @@ export default function About() {
     {
       name: "Dhiraj Kumar",
       role: "CTO",
-      image: "",
+      image: "../../public/dhiraj.jpg",
       bio: "Educational technology expert with focus on interactive learning"
     }
   ];
@@ -52,7 +52,7 @@ export default function About() {
             Empowering the Future of Digital Innovation
           </h1>
           <p className="text-xl max-w-3xl mx-auto">
-            DigiLogic is dedicated to making digital logic education accessible, engaging, and effective for everyone.
+            ApnaVision is dedicated to making digital logic education accessible, engaging, and effective for everyone.
           </p>
         </div>
       </div>
