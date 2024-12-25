@@ -49,7 +49,7 @@ export default function ApplicationForm({ selectedJob }: ApplicationFormProps) {
   };
 
   return (
-    <div className="bg-background rounded-lg shadow-md p-6">
+    <div className="bg-background z-30 rounded-lg shadow-md p-6">
       <h2 className="text-xl font-semibold mb-6">Apply Now</h2>
       
       {success && (
@@ -64,7 +64,7 @@ export default function ApplicationForm({ selectedJob }: ApplicationFormProps) {
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-4 max-h-[74svh] md:min-w-80 h-fit">
+      <form onSubmit={handleSubmit} className="space-y-4 max-h-[74svh]  md:min-w-80 h-fit">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Full Name

@@ -30,7 +30,7 @@ export default function Careers() {
 
   return (
     <div className="min-h-screen bg-background">
-        <div ref={menuRef} className={`${showForm?"inline":"hidden"} min-w-72 z-10  fixed top-[50%] left-[50%] -translate-x-2/4 -translate-y-2/4  p-1 border rounded-lg overflow-auto min-h-80  bg-background  flex items-center justify-center`}>
+        <div ref={menuRef} className={`${showForm?"inline":"hidden"} min-w-72 z-20  fixed top-[50%] left-[50%] -translate-x-2/4 -translate-y-2/4  p-1 border rounded-lg overflow-auto min-h-80  bg-background  flex items-center justify-center`}>
      <ApplicationForm selectedJob={selectedJob} />
       </div>
       {/* Hero Section */}

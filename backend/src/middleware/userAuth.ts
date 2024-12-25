@@ -25,8 +25,9 @@ export const userAuth = async (
     next: NextFunction
 ) => {
     try {
+        console.log(req.cookies);
         const token = req.cookies.token
-
+        
         if (!token) {
             throw new AppError(401, 'Authentication required')
         }
@@ -45,6 +46,6 @@ export const userAuth = async (
         req.role = decoded.sub.role
         next()
     } catch (err) {
-        next(new AppError(401, 'Invalid token'))
+        next(new AppError(401, 'Authentication required'))
     }
 }

@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Lock, Mail } from 'lucide-react';
 import { login } from '../services/auth';
 import { useAuth } from '../hooks/useAuth';
+import { Input } from '@/components/ui/input';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -10,17 +11,23 @@ export default function Login() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { setUser } = useAuth();
+  const {user, setUser } = useAuth();
+  useEffect(()=>{
+    if(user){
+      navigate('/');
+    }
+},[user])
 
-  const handleSubmit = async (e: React.FormEvent) => {
+const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setLoading(true);
-
+    
     try {
       const user = await login(email, password);
       setUser(user);
-      navigate('/');
+    //   navigate('/');
+      window.location.reload()
     } catch (err) {
       setError('Invalid email or password');
     } finally {
@@ -29,13 +36,13 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className=" flex items-center justify-center bg-background py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-primary">
             Sign in to your account
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
+          <p className="mt-2 text-center text-sm text-muted-primary">
             Or{' '}
             <Link to="/signup" className="font-medium text-blue-600 hover:text-blue-500">
               create a new account
@@ -53,11 +60,11 @@ export default function Login() {
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
               <label htmlFor="email" className="sr-only">Email address</label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center">
-                  <Mail className="h-5 w-5 text-gray-400" />
+              <div className="flex">
+                <div className=" inset-y-0 left-0 ml-1 flex items-center">
+                  <Mail className="h-5 absolute w-5 mr-6 text-gray-400" />
                 </div>
-                <input
+                <Input
                   id="email"
                   name="email"
                   type="email"
@@ -65,18 +72,19 @@ export default function Login() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                  className='pl-8'
+                //   className="appearance-none rounded-none relative block w-full px-3 py-2 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                   placeholder="Email address"
                 />
               </div>
             </div>
             <div>
               <label htmlFor="password" className="sr-only">Password</label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center">
-                  <Lock className="h-5 w-5 text-gray-400" />
+              <div className="flex mt-2">
+              <div className=" inset-y-0 left-0 ml-1 flex items-center">
+                  <Lock className="h-5 absolute w-5 mr-6 text-gray-400" />
                 </div>
-                <input
+                <Input
                   id="password"
                   name="password"
                   type="password"
@@ -84,7 +92,8 @@ export default function Login() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                  className='pl-8'
+                //   className="appearance-none rounded-none relative block w-full px-3 py-2 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                   placeholder="Password"
                 />
               </div>

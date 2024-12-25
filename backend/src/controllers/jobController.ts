@@ -63,23 +63,34 @@ export const submitApplication = asyncHandler(
             throw new AppError(400, 'Resume file is required')
         }
 
+        if (!name || !email || !phone || !coverLetter) {
+          throw new AppError(400, 'All fields are required')
+      }
         // Check if job exists and is active
         const job = await Job.findOne({ _id: jobId, active: true })
         if (!job) {
             throw new AppError(404, 'Job not found or no longer active')
         }
+        // check if previously applied or not
+        const alreadyApplied = await JobApplication.findOne({
+            jobId,
+            email,
+        })
+        if (alreadyApplied) {
+            throw new AppError(400, 'You have already applied for this job')
+        }
 
         // Upload resume to storage
         // const resumeUrl = await uploadToStorage(resumeFile);
-        console.log(resumeFile.originalname)
         const fileName = `${uuidv4()}-${resumeFile.originalname}`
         const uploadParams = {
-            Bucket: config.s3bucket, // The name of your S3 bucket
-            Key: 'resume/' + fileName, // The key (path in S3)
-            Body: resumeFile.buffer, // The file content
+          Bucket: config.s3bucket, // The name of your S3 bucket
+          Key: 'resume/' + fileName, // The key (path in S3)
+          Body: resumeFile.buffer, // The file content
         }
         const putObjectCommand = new PutObjectCommand(uploadParams)
         const response = await s3.send(putObjectCommand)
+        console.log(resumeFile.originalname)
 
         console.dir(response, { depth: null })
 

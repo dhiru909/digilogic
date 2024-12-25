@@ -8,6 +8,7 @@ import {
 } from '../controllers/userController'
 import multer from 'multer'
 import path from 'node:path'
+import { userAuth } from '../middleware/userAuth'
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, path.resolve(__dirname, '../../public/data/uploads'))
@@ -76,12 +77,12 @@ const userRouter = express.Router()
 // The file should have the same extension as the original file
 // Example request body: { dp: <file> }
 userRouter.post(
-    '/register',
+    '/signup',
     createUser // Define the handler function for the route
 )
 
 userRouter.post('/login', loginUser)
-userRouter.get('/:userId', getUserDetails)
+userRouter.post('/details',userAuth, getUserDetails)
 userRouter.post('/logout', logout)
 userRouter.post('/refresh', refreshToken)
 

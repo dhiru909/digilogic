@@ -55,8 +55,8 @@ export default function JobForm({ job, onClose, onSuccess }: JobFormProps) {
   };
 
   return (
-    <div className="fixed z-20 overflow-auto inset-0 bg-background bg-black bg-opacity-50 border  flex items-center w-fit h-fit top-[50%] left-[50%] -translate-x-2/4 -translate-y-2/4 justify-center">
-      <div className="bg-background rounded-lg p-8 max-w-md w-full">
+    <div className="fixed rounded-sm z-20 overflow-auto max-h-[90vh] inset-0 bg-background bg-opacity-50 border  flex items-center w-fit h-fit top-[50%] left-[50%] -translate-x-2/4 -translate-y-2/4 justify-center">
+      <div className="bg-background rounded-lg p-8 max-w-md">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold">
             {job ? 'Edit Job' : 'Add Job'}
@@ -66,7 +66,7 @@ export default function JobForm({ job, onClose, onSuccess }: JobFormProps) {
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4 ">
           <div>
             <label className="block text-sm font-medium text-primary">Title</label>
             <Input

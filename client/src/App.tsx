@@ -13,11 +13,13 @@ import { Toaster } from './components/ui/toaster';
 import Careers from './pages/Careers';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import { AuthProvider } from './hooks/useAuth';
 
 export default function App() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <Toaster />
+      <AuthProvider>
     <Router>
       <div className="flex flex-col min-h-screen">
         <Navbar />
@@ -39,6 +41,7 @@ export default function App() {
         <Footer />
       </div>
     </Router>
+    </AuthProvider>
     </ThemeProvider>
   );
 }

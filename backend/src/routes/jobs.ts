@@ -9,6 +9,7 @@ import {
     getApplications,
     updateApplicationStatus,
 } from '../controllers/jobController'
+import { userAuth } from '../middleware/userAuth'
 
 const router = Router()
 
@@ -42,7 +43,7 @@ router.put('/:id', updateJob)
 router.delete('/:id', deleteJob)
 
 // Application route
-router.post('/apply', upload.single('resume'), submitApplication)
+router.post('/apply',userAuth, upload.single('resume'), submitApplication)
 // Application management routes
 router.get('/applications', getApplications)
 router.patch('/applications/:_id/status', updateApplicationStatus)

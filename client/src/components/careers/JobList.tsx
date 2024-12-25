@@ -42,7 +42,7 @@ export default function JobList({ onSelectJob }: JobListProps) {
           </div>
           <p className="text-gray-600 mb-4">{job.description}</p>
           <div className="flex flex-wrap gap-2">
-            {job?.skills.map((skill) => (
+            {job?.skills?.map((skill) => (
               <span
                 key={skill}
                 className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm"

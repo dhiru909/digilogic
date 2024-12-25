@@ -46,29 +46,29 @@ export default function ApplicationList({
   return (
     <div className="bg-background rounded-lg shadow-md w-full overflow-x-auto">
       <div className=" border divide-y-2 rounded-lg">
-        {applications.map((application) => (
-          <div key={application._id} className="p-6 overflow-scroll">
+        {applications?.map((application) => (
+          <div key={application?._id} className="p-6 overflow-scroll">
             <div className="flex flex-col md:flex-row rounded-lg justify-between items-start mb-4">
                 <div className='text-wrap '>
-                    <h3 className="text-lg font-semibold">{application.name}</h3>
+                    <h3 className="text-lg font-semibold">{application?.name}</h3>
                     <div className="flex items-center gap-4 text-sm text-gray-600 mb-2 mt-1">
                     <div className="flex items-center">
                         <Mail className="w-4 h-4 mr-1" />
-                        {application.email}
+                        {application?.email}
                     </div>
                     <div className="flex items-center">
                         <Phone className="w-4 h-4 mr-1" />
-                        {application.phone}
+                        {application?.phone}
                     </div>
                     <div className="flex items-center">
                         <Calendar className="w-4 h-4 mr-1" />
-                        {new Date(application.appliedDate).toLocaleDateString()}
+                        {new Date(application?.appliedDate).toLocaleDateString()}
                     </div>
                     </div>
                 </div>
               <div className="flex items-center md:fade-in-15 duration-500 gap-4">
                 <a
-                  href={application.resumeUrl}
+                  href={application?.resumeUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center text-blue-600 hover:text-blue-700"
@@ -77,9 +77,9 @@ export default function ApplicationList({
                   Resume
                 </a>
                 <select
-                  value={application.status}
+                  value={application?.status}
                   onChange={(e) => onStatusChange(application._id, e.target.value as JobApplication['status'])}
-                  className={`rounded-full px-3 py-1 text-sm font-medium ${getStatusColor(application.status)} border`}
+                  className={`rounded-full px-3 py-1 text-sm font-medium ${getStatusColor(application?.status)} border`}
                 >
                   <option value="pending">Pending</option>
                   <option value="reviewed">Reviewed</option>
@@ -90,7 +90,7 @@ export default function ApplicationList({
             </div>
             <div className="bg-background border-dashed border rounded-lg p-4 mt-4">
               <h4 className="font-medium mb-2">Cover Letter</h4>
-              <p className="text-gray-600 whitespace-pre-wrap">{application.coverLetter}</p>
+              <p className="text-gray-600 whitespace-pre-wrap">{application?.coverLetter}</p>
             </div>
           </div>
         ))}

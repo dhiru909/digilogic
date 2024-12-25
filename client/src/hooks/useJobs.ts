@@ -7,7 +7,7 @@ export function useJobs() {
     queryKey: ['all-enquiries'],
     queryFn: () => getJobs(),
     gcTime: 1000 * 61,
-    staleTime:1000*60
+    // staleTime:1000*60
   });
 
   return { jobs:data, loading:isLoading, error:isError, refetch: refetch};

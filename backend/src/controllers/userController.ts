@@ -4,25 +4,30 @@ import { NextFunction, Request, Response } from 'express'
 import createHttpError from 'http-errors'
 import userModel from '../models/User'
 import bcrypt from 'bcrypt'
-import { sign, verify } from 'jsonwebtoken'
+import { JwtPayload, sign, verify } from 'jsonwebtoken'
 import { config } from '../config/config'
 import { User } from '../types/user'
 import { AppError } from '../middleware/errorHandler'
 import { asyncHandler } from '../utils/asyncHandler'
+import { JobApplication } from '../models/JobApplication'
+import { Enquiry } from '../models/Enquiry'
 
-const generateToken = (userId: string): string => {
-    return sign({ userId }, config.jwtSecret!, {
+const generateToken = (userId: string, role: string): string => {
+    return sign({ sub: { userId, role } }, config.jwtSecret!, {
         expiresIn: '7d',
+        algorithm: 'HS256',
     })
 }
+const setCookieOptions = {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax' as const,
+    maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+  };
+  
 
 const setTokenCookie = (res: Response, token: string) => {
-    res.cookie('token', token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict',
-        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-    })
+    res.cookie('token', token,setCookieOptions)
 }
 
 // This function is responsible for creating a new user in the database.
@@ -73,6 +78,7 @@ const createUser = asyncHandler(
                     config.jwtSecret as string,
                     {
                         algorithm: 'HS256',
+                        expiresIn: '7d',
                     }
                 )
 
@@ -130,6 +136,7 @@ const loginUser = asyncHandler(
                 config.jwtSecret as string,
                 {
                     algorithm: 'HS256',
+                    expiresIn: '7d',
                 }
             )
 
@@ -161,16 +168,26 @@ const loginUser = asyncHandler(
 
 const getUserDetails = asyncHandler(
     async (req: Request, res: Response, next: NextFunction) => {
-        try {
-            const user = await userModel
-                .findById(req.params.userId)
-                .select('-password')
-            if (!user) {
-                return next(createHttpError(404, 'User not found'))
-            }
-            res.status(200).json(user)
-        } catch (error) {
-            return next(createHttpError(500, 'Error while finding user'))
+        const userId = req.userId
+
+        const user = await userModel.findById(userId).select('name email')
+
+        if (!user) {
+            res.status(404).json({ message: 'User not found' })
+        } else {
+            const applications = await JobApplication.find()
+                .sort('-appliedDate')
+                .populate('jobId', 'title')
+
+            const enquiries = await Enquiry.find({ email: user.email })
+                .sort('-createdAt')
+                .populate('productId', 'name')
+
+            res.json({
+                user,
+                applications,
+                enquiries,
+            })
         }
     }
 )
@@ -187,16 +204,21 @@ const refreshToken = asyncHandler(async (req: Request, res: Response) => {
         throw new AppError(401, 'No token provided')
     }
 
-    const decoded = verify(token, process.env.JWT_SECRET!) as {
-        userId: string
+    const decoded = verify(token, process.env.JWT_SECRET!) as unknown as {
+        sub: {
+            userId: string
+            role: string
+        }
     }
-    const user = await userModel.findById(decoded.userId).select('-password')
+    const user = await userModel
+        .findById(decoded.sub.userId)
+        .select('-password')
 
     if (!user) {
         throw new AppError(401, 'User not found')
     }
 
-    const newToken = generateToken(user._id)
+    const newToken = generateToken(user._id, user.role)
     setTokenCookie(res, newToken)
 
     res.json({
@@ -207,4 +229,7 @@ const refreshToken = asyncHandler(async (req: Request, res: Response) => {
         },
     })
 })
+
+// Export the createUser and loginUser functions
+
 export { createUser, loginUser, getUserDetails, logout, refreshToken }

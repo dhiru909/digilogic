@@ -17,6 +17,7 @@ export default function JobList({
   onEdit,
   onRefetch
 }: JobListProps) {
+  
   const handleDelete = async (id: string) => {
     if (window.confirm('Are you sure you want to delete this job posting?')) {
       try {
@@ -31,6 +32,7 @@ export default function JobList({
   if (loading) {
     return <div className="animate-pulse">Loading jobs...</div>;
   }
+  console.log(jobs);
 
   if (error) {
     return (
@@ -70,7 +72,7 @@ export default function JobList({
           </tr>
         </thead>
         <tbody className="bg-background divide-y divide-gray-200">
-          {jobs.map((job) => (
+          {jobs?.map((job) => (
             <tr key={job._id}>
               <td className="px-6 py-4 whitespace-nowrap">
                 <div className="flex items-center">

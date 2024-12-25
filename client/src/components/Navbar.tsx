@@ -1,11 +1,22 @@
-import React, {  useRef, useState } from 'react';
+import React, {  useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { CircuitBoard, Menu, X } from 'lucide-react';
+import { CircuitBoard, Menu, User, X } from 'lucide-react';
 import { ModeToggle } from './mode-toggle';
+import { useAuth } from '@/hooks/useAuth';
 
 export default function Navbar() {
+  // const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
-
+  const {user, setUser } = useAuth();
+  console.log("navbar",user);
+  useEffect(()=>{
+    if(user){
+      setUser(user);
+    }
+  })
+  /**
+   * Toggle the mobile menu open or closed
+   */
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
@@ -34,7 +45,7 @@ export default function Navbar() {
               <CircuitBoard className="h-8 w-8 text-blue-600" />
               <span className="font-bold text-xl">ApnaVision</span>
             </Link>
-            <div className="hidden md:flex items-center  space-x-4 ml-8">
+            <div className="hidden md:flex items-center  justify-center w-full space-x-4 ml-8">
               <Link to="/products" className="text-primary hover:text-blue-600 px-3 py-2">Products</Link>
               <Link to="/about" className="text-primary hover:text-blue-600 px-3 py-2">About</Link>
               <Link to="/careers" className="text-primary hover:text-blue-600 px-3 py-2">Careers</Link>
@@ -44,9 +55,23 @@ export default function Navbar() {
             </div>
           </div>
           <div className="flex items-center space-x-4">
-            {/* <Link to="/profile" className="text-primary hover:text-blue-600">
-              <User className="h-6 w-6" />
-            </Link> */}
+            {
+               user ?(
+                <Link  to="/profile" className="text-primary hover:text-blue-600">
+                <User className="h-6 ml-6 mr-2 w-6" />
+              </Link>
+              ):(
+                <div className='flex  p-4 flex-row space-x-3 ml-4 w-fit items-center'>
+                  <Link to="/login" className="text-primary hover:text-blue-600">
+                    Login
+                  </Link>
+                  <Link to="/signup" className="text-primary hover:text-blue-600" >
+                    Signup
+                  </Link>
+                </div>
+              )
+            }
+           
             <button onClick={toggleMenu} className="md:hidden text-3xl cursor-pointer">
               {menuOpen ? (
                 <X className="text-3xl border" />

@@ -6,11 +6,12 @@ import {
   deleteEnquiry
 } from '../controllers/enquiryController';
 import rateLimiter from '../middleware/rateLimiter';
+import { userAuth } from '../middleware/userAuth';
 
 const router = Router();
 
 router.get('/', getEnquiries);
-router.post('/', createEnquiry);
+router.post('/', userAuth,createEnquiry);
 router.patch('/:id/status', updateEnquiryStatus);
 router.delete('/:id', deleteEnquiry);
 
