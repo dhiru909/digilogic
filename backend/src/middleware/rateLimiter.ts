@@ -13,13 +13,12 @@ import { aj } from "./arcjet";
 const rateLimiter = async (req: Request, res: Response, next: NextFunction) => {
   // Extract the authorization token from the request header
 //   var ip = req.headers['x-real-ip'] || req.socket.remoteAddress;
-// console.log(ip)
+
 
     try {
         const result = await aj.protect(req,{
             requested:5
         })
-        // console.log(result);
         
         if(result.isDenied() ){
             return next(createHttpError(429, "Please wait"));

@@ -1,9 +1,10 @@
-import { useProfile } from '../hooks/useProfile';
-import ProfileHeader from '../components/profile/ProfileHeader';
-import UserApplications from '../components/profile/UserApplications';
-import UserEnquiries from '../components/profile/UserEnquiries';
-import { AlertCircle, Loader } from 'lucide-react';
-import LogoutButton from '@/components/profile/LogoutButton';
+import { useProfile } from "../hooks/useProfile";
+import ProfileHeader from "../components/profile/ProfileHeader";
+import UserApplications from "../components/profile/UserApplications";
+import UserEnquiries from "../components/profile/UserEnquiries";
+import { AlertCircle, Loader } from "lucide-react";
+import LogoutButton from "@/components/profile/LogoutButton";
+import UserWorkshops from "@/components/profile/UserWorkshops";
 
 export default function Profile() {
   const { profile, loading, error, refetch } = useProfile();
@@ -39,6 +40,7 @@ export default function Profile() {
       </div>
       <ProfileHeader profile={profile?.user!} />
       <div className="grid grid-cols-1 gap-6 mt-6">
+      <UserWorkshops registrations={profile?.workshopRegistrations!} />
         <UserApplications applications={profile?.applications!} />
         <UserEnquiries enquiries={profile?.enquiries!} />
       </div>

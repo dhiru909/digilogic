@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import ApplicationList from './ApplicationList';
-import { useApplications } from '../../../hooks/useApplications';
-import { updateApplicationStatus } from '../../../services/api';
+import { useState } from "react";
+import ApplicationList from "./ApplicationList";
+import { useApplications } from "../../../hooks/useApplications";
+import { updateApplicationStatus } from "../../../services/api";
 
 export default function ApplicationManagement() {
   const { applications, loading, error, refetch } = useApplications();
@@ -9,14 +9,12 @@ export default function ApplicationManagement() {
 
   const handleStatusChange = async (id: string, status: string) => {
     try {
-        console.log(id);
-        
       await updateApplicationStatus(id, status);
       refetch();
       setUpdateError(null);
     } catch (err) {
-      setUpdateError('Failed to update application status');
-      console.error('Error updating application status:', err);
+      setUpdateError("Failed to update application status");
+      console.error("Error updating application status:", err);
     }
   };
 
@@ -24,9 +22,7 @@ export default function ApplicationManagement() {
     <div>
       <div className="mb-6">
         <h2 className="text-2xl font-bold">Job Applications</h2>
-        {updateError && (
-          <p className="mt-2 text-red-600">{updateError}</p>
-        )}
+        {updateError && <p className="mt-2 text-red-600">{updateError}</p>}
       </div>
 
       <ApplicationList

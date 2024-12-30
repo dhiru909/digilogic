@@ -2,6 +2,7 @@ import axios from "axios";
 import { Product } from "../types/index";
 import { Cate, Enquiry } from "../types/enquiry";
 import { Job, JobApplication } from "@/types/career";
+import { Workshop, WorkshopRegistration } from "@/types/workshop";
 const API_URL = "http://localhost:5000/api";
 export const BACKEND_URL = "http://localhost:5000";
 axios.defaults.withCredentials = true;
@@ -88,8 +89,6 @@ export const deleteJob = async (id: string): Promise<void> => {
 };
 
 export const submitApplication = async (formData: FormData): Promise<void> => {
-  console.log(":sdgsdg");
-
   await axios.post(`${API_URL}/jobs/apply`, formData, {
     headers: {
       "Content-Type": "multipart/form-data",
@@ -111,4 +110,101 @@ export const updateApplicationStatus = async (
     { status }
   );
   return response.data;
+};
+
+export async function uploadImage(file: File): Promise<string> {
+  const formData = new FormData();
+  formData.append("image", file);
+
+  const response = await axios.post(`${API_URL}/products/image`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+    withCredentials: true,
+  });
+
+  return response.data.url;
+}
+
+// Workshop APIs
+export const getWorkshops = async (): Promise<Workshop[]> => {
+  const response = await axios.get(`${API_URL}/workshops`);
+  return response.data;
+};
+
+export const createWorkshop = async (
+  data: Partial<Workshop>
+): Promise<Workshop> => {
+  const response = await axios.post(`${API_URL}/workshops`, data, {
+    withCredentials: true,
+  });
+  return response.data;
+};
+
+export const updateWorkshop = async (
+  id: string,
+  data: Partial<Workshop>
+): Promise<Workshop> => {
+  const response = await axios.put(`${API_URL}/workshops/${id}`, data, {
+    withCredentials: true,
+  });
+  return response.data;
+};
+
+export const deleteWorkshop = async (id: string): Promise<void> => {
+  await axios.delete(`${API_URL}/workshops/${id}`, {
+    withCredentials: true,
+  });
+};
+
+export const registerForWorkshop = async (
+  workshopId: string,
+  formData: FormData
+): Promise<void> => {
+  await axios.post(`${API_URL}/workshops/${workshopId}/register`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+    withCredentials: true,
+  });
+};
+export const updateRegistrationStatus = async (
+  id: string,
+  status: "confirmed" | "rejected"
+): Promise<void> => {
+  await axios.patch(
+    `${API_URL}/workshops/registrations/${id}/status`,
+    { status },
+    { withCredentials: true }
+  );
+};
+export const getRegistrations = async (
+  id: string
+): Promise<WorkshopRegistration[]> => {
+  const response = await axios.get(`${API_URL}/workshops/${id}/registrations`, {
+    withCredentials: true,
+  });
+  return response.data;
+};
+
+export const downloadRegistrations = async (
+  registrationIds: string[]
+): Promise<void> => {
+  const response = await axios.post(
+    `${API_URL}/workshops/registrations/download`,
+    { registrationIds },
+    {
+      responseType: "blob",
+      withCredentials: true,
+    }
+  );
+
+  // Create download link
+  const url = window.URL.createObjectURL(new Blob([response.data]));
+  const link = document.createElement("a");
+  link.href = url;
+  link.setAttribute("download", "workshop-registrations.csv");
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
 };

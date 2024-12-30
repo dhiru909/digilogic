@@ -1,6 +1,5 @@
 import axios from "axios";
-import { Details, User } from "../types/index";
-
+import { Details, User, UserRole } from "../types/index";
 const API_URL = "http://localhost:5000/api";
 export const BACKEND_URL = "http://localhost:5000";
 axios.defaults.withCredentials = true;
@@ -22,6 +21,8 @@ export async function signup(data: {
   name: string;
   email: string;
   password: string;
+  role: UserRole | string;
+  securityNumber?: string;
 }): Promise<User> {
   const response = await axios.post(`${API_URL}/auth/signup`, data, {
     withCredentials: true,

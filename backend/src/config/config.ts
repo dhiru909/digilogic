@@ -14,4 +14,5 @@ export const config = {
     s3Region: process.env.S3_REGION,
     s3bucket: process.env.S3_BUCKET,
     jwtSecret: process.env.JWT_SECRET,
+    postgresUri:process.env.POSTGRES_URI
 } as const

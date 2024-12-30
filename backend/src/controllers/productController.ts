@@ -3,6 +3,7 @@ import { Product } from '../models/Product';
 import { asyncHandler } from '../utils/asyncHandler';
 import { AppError } from '../middleware/errorHandler';
 import { IProduct } from '../types/product';
+import { uploadToS3 } from '../utils/uploadToS3';
 
 export const getProducts = asyncHandler(async (req: Request, res: Response) => {
   const products = await Product.find();
@@ -35,3 +36,19 @@ export const deleteProduct = asyncHandler(async (req: Request, res: Response) =>
   await product.deleteOne();
   res.json({ message: 'Product deleted' });
 });
+
+
+export const uploadProductImage = asyncHandler(async (req: Request, res: Response) => {
+  try {
+    if (!req.file) {
+      res.status(400).json({ message: 'No file uploaded' }).end();
+      return;
+    }
+
+    const url = await uploadToS3("product",req.file)
+    res.json({ url });
+  } catch (error) {
+    res.status(500).json({ message: 'Error uploading file' });
+  }
+});
+

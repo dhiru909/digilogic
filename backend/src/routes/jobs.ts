@@ -10,6 +10,8 @@ import {
     updateApplicationStatus,
 } from '../controllers/jobController'
 import { userAuth } from '../middleware/userAuth'
+import { adminAuth } from '../middleware/adminAuth'
+import path from 'path'
 
 const router = Router()
 
@@ -36,16 +38,17 @@ const upload = multer({
     },
 })
 
+
 // Job routes
-router.get('/', getJobs)
-router.post('/', createJob)
-router.put('/:id', updateJob)
-router.delete('/:id', deleteJob)
+router.get('/', adminAuth, getJobs)
+router.post('/', adminAuth, createJob)
+router.put('/:id', adminAuth, updateJob)
+router.delete('/:id', adminAuth, deleteJob)
 
 // Application route
-router.post('/apply',userAuth, upload.single('resume'), submitApplication)
+router.post('/apply', userAuth, upload.single('resume'), submitApplication)
 // Application management routes
-router.get('/applications', getApplications)
-router.patch('/applications/:_id/status', updateApplicationStatus)
+router.get('/applications', adminAuth, getApplications)
+router.patch('/applications/:_id/status', adminAuth, updateApplicationStatus)
 
 export default router

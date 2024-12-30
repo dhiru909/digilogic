@@ -68,7 +68,6 @@ export default function Products() {
   const showFormHandler = (_id:string) => {
     localStorage.setItem("productId",_id);
     // setProductEnquire(_id);
-    console.log(_id);
     
     setShowForm(!showForm);
   }

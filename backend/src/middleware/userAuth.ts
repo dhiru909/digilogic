@@ -25,7 +25,7 @@ export const userAuth = async (
     next: NextFunction
 ) => {
     try {
-        console.log(req.cookies);
+        
         const token = req.cookies.token
         
         if (!token) {

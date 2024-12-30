@@ -1,6 +1,6 @@
-import { Pencil, Trash2, AlertCircle, Briefcase, MapPin } from 'lucide-react';
-import { Job } from '../../../types/career';
-import { deleteJob } from '../../../services/api';
+import { Pencil, Trash2, AlertCircle, Briefcase, MapPin } from "lucide-react";
+import { Job } from "../../../types/career";
+import { deleteJob } from "../../../services/api";
 
 interface JobListProps {
   jobs: Job[];
@@ -15,16 +15,15 @@ export default function JobList({
   loading,
   error,
   onEdit,
-  onRefetch
+  onRefetch,
 }: JobListProps) {
-  
   const handleDelete = async (id: string) => {
-    if (window.confirm('Are you sure you want to delete this job posting?')) {
+    if (window.confirm("Are you sure you want to delete this job posting?")) {
       try {
         await deleteJob(id);
         onRefetch();
       } catch (error) {
-        console.error('Error deleting job:', error);
+        console.error("Error deleting job:", error);
       }
     }
   };
@@ -32,7 +31,6 @@ export default function JobList({
   if (loading) {
     return <div className="animate-pulse">Loading jobs...</div>;
   }
-  console.log(jobs);
 
   if (error) {
     return (
@@ -50,7 +48,7 @@ export default function JobList({
   }
 
   return (
-    <div className="bg-background  rounded-lg shadow-md overflow-auto">
+    <div className="bg-background  rounded-lg shadow-md overflow-y-auto overflow-x-auto">
       <table className="min-w-full divide-y divide-gray-200">
         <thead className="bg-muted">
           <tr>

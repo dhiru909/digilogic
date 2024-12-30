@@ -11,6 +11,7 @@ import { AppError } from '../middleware/errorHandler'
 import { asyncHandler } from '../utils/asyncHandler'
 import { JobApplication } from '../models/JobApplication'
 import { Enquiry } from '../models/Enquiry'
+import { WorkshopRegistration } from '../models/WorkshopRegistration'
 
 const generateToken = (userId: string, role: string): string => {
     return sign({ sub: { userId, role } }, config.jwtSecret!, {
@@ -22,12 +23,11 @@ const setCookieOptions = {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax' as const,
-    maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
-  };
-  
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+}
 
 const setTokenCookie = (res: Response, token: string) => {
-    res.cookie('token', token,setCookieOptions)
+    res.cookie('token', token, setCookieOptions)
 }
 
 // This function is responsible for creating a new user in the database.
@@ -35,19 +35,21 @@ const createUser = asyncHandler(
     async (req: Request, res: Response, next: NextFunction) => {
         // Validate the request body and files
 
-        const { email, name, password } = req.body
-        if (!email || !password || !name) {
+        const { email, name, password, role, securityNumber } = req.body
+        if (!email || !password || !name || !role) {
             throw new AppError(400, 'All fields are required')
         }
+        if (role == 'ADMIN' && securityNumber != '321000') {
+            throw new AppError(400, 'Security number is incorrect')
+        }
+
         try {
             const user = await userModel.findOne({ email: email })
-            console.log(user)
-
             // Check if a user with the same email already exists in the database
             // If a user with the same email exists, delete the uploaded file and return a 400 error response
 
             if (user) {
-                const error = createHttpError(
+                const error = new AppError(
                     400,
                     'User Already Exist with this email'
                 )
@@ -69,6 +71,7 @@ const createUser = asyncHandler(
                     name,
                     email,
                     password: hashedPassword,
+                    role: role,
                 })
 
                 // Generate a JWT token for the user
@@ -88,6 +91,7 @@ const createUser = asyncHandler(
                 res.status(201).json({
                     name: newUser.name,
                     email: newUser.email,
+                    role: newUser.role,
                 })
                 return
             } catch (error) {
@@ -159,6 +163,7 @@ const loginUser = asyncHandler(
             res.status(200).json({
                 name: user.name,
                 email: user.email,
+                role: user.role,
             })
         } catch (error) {
             return next(createHttpError(500, 'Error while getting user'))
@@ -170,12 +175,14 @@ const getUserDetails = asyncHandler(
     async (req: Request, res: Response, next: NextFunction) => {
         const userId = req.userId
 
-        const user = await userModel.findById(userId).select('name email')
+        const user = await userModel.findById(userId).select('name email role')
 
         if (!user) {
             res.status(404).json({ message: 'User not found' })
         } else {
-            const applications = await JobApplication.find()
+            const applications = await JobApplication.find({
+                email: user.email,
+            })
                 .sort('-appliedDate')
                 .populate('jobId', 'title')
 
@@ -183,10 +190,34 @@ const getUserDetails = asyncHandler(
                 .sort('-createdAt')
                 .populate('productId', 'name')
 
+            const workshopRegistrationsRaw = await WorkshopRegistration.find(
+                { email: user.email },
+                'status workshopId'
+            )
+                .sort('-createdAt')
+                .populate('workshopId', 'title date link duration location status')
+                const workshopRegistrations=workshopRegistrationsRaw.map((workshopRegistration)=>{
+                const _id= workshopRegistration._id
+                const status = workshopRegistration.status
+                // @ts-ignore
+                const workshopName = workshopRegistration.workshopId.title
+                // @ts-ignore
+                const link = workshopRegistration.status==="confirmed"? workshopRegistration.workshopId.link  :"" 
+                // @ts-ignore
+                const date = workshopRegistration.workshopId.date   
+                // @ts-ignore
+                const duration = workshopRegistration.workshopId.duration 
+                // @ts-ignore
+                const location = workshopRegistration.workshopId.location
+                // @ts-ignore
+                const workshopStatus = workshopRegistration.workshopId.status
+                return { _id, status, workshopName, link, date, duration, location, workshopStatus }  
+            })
             res.json({
                 user,
                 applications,
                 enquiries,
+                workshopRegistrations,
             })
         }
     }
@@ -226,6 +257,7 @@ const refreshToken = asyncHandler(async (req: Request, res: Response) => {
             id: user._id,
             name: user.name,
             email: user.email,
+            role: user.role,
         },
     })
 })

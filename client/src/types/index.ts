@@ -1,17 +1,19 @@
+import { WorkshopStatus } from "./workshop";
 
 export interface Product {
   _id: string;
   name: string;
   description: string;
   price: number;
-  image: string;
+  image?: string;
   category: string;
 }
-
+export type UserRole = "USER" | "ADMIN";
 export interface User {
   // id: string;
   email: string;
   name: string;
+  role: string;
   // joinedDate:Date
 }
 
@@ -41,8 +43,22 @@ export interface EnquiryDetails {
   productId: { _id: string; name: string };
   status: "new" | "read" | "replied";
 }
+
+export interface WorkshopDetails {
+  _id: string;
+  workshopName: string;
+  status: "pending" | "confirmed" | "rejected" | "cancelled";
+  date: Date;
+  link?: string;
+  duration: string;
+  location: string;
+  workshopStatus: WorkshopStatus;
+  // paymentStatus: 'pending' | 'completed' | 'refunded';
+}
+
 export interface Details {
   user: User;
   applications: JobApplicationDetails[];
   enquiries: EnquiryDetails[];
+  workshopRegistrations: WorkshopDetails[];
 }

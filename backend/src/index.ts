@@ -10,6 +10,7 @@ import enquiryRoutes from './routes/enquiries'
 import jobRoutes from './routes/jobs'
 import userRouter from './routes/users'
 import cookieParser from 'cookie-parser'
+import workshopRoutes from './routes/workshops';
 const app = express()
 app.use(cookieParser())
 // Middleware
@@ -33,6 +34,9 @@ app.use('/api/products', productRoutes)
 app.use('/api/enquiries', enquiryRoutes)
 app.use('/api/jobs', jobRoutes)
 app.use('/api/auth', userRouter)
+
+app.use('/api/workshops', workshopRoutes);
+
 // Error handling
 app.use(errorHandler)
 
