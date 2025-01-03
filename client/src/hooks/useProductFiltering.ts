@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { ProductFiltersType } from '../types/product';
 import { Product } from '@/types/index';
-export function useProductFiltering(products: Product[]) {
+export function useProductFiltering(products?: Product[]) {
   const [filters, setFilters] = useState<ProductFiltersType>({
     category: '',
     priceRange: [0, 100000],

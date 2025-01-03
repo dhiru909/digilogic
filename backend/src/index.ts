@@ -10,20 +10,37 @@ import enquiryRoutes from './routes/enquiries'
 import jobRoutes from './routes/jobs'
 import userRouter from './routes/users'
 import cookieParser from 'cookie-parser'
-import workshopRoutes from './routes/workshops';
+import workshopRoutes from './routes/workshops'
 const app = express()
 app.use(cookieParser())
 // Middleware
-app.use(
-    cors({
-        origin: config.corsOrigin,
-        exposedHeaders: ['Set-Cookie'],
+var whitelist = [
+    'http://localhost:5173',
+    'http://api.apnavision.in',
+    'http://www.apnavision.in',
+    'https://apnavision.in/*',
+    'apnavision.in',
+    'https://apnavision.in',
+]
 
-        credentials: true,
-        methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-        allowedHeaders: ['Content-Type', 'Authorization'],
-    })
-)
+// Options for the CORS middleware.
+
+var corsOptions = {
+    'Access-Control-Allow-Origin': '*',
+
+    credentials: true, // Allow passing of credentials (cookies, authorization headers, etc.) in cross-origin requests.
+    origin: function (origin: any, callback: any) {
+        // Function to determine if a given origin is allowed.
+        if (whitelist.indexOf(origin) !== -1) {
+            // If the origin is in the whitelist, allow the request.
+            callback(null, true)
+        } else {
+            // If the origin is not in the whitelist, deny the request.
+            callback(new Error('Not allowed by CORS'))
+        }
+    },
+}
+app.use(cors(corsOptions))
 app.use(express.json())
 
 // Serve uploaded files
@@ -35,7 +52,7 @@ app.use('/api/enquiries', enquiryRoutes)
 app.use('/api/jobs', jobRoutes)
 app.use('/api/auth', userRouter)
 
-app.use('/api/workshops', workshopRoutes);
+app.use('/api/workshops', workshopRoutes)
 
 // Error handling
 app.use(errorHandler)

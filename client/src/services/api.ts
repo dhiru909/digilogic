@@ -3,12 +3,10 @@ import { Product } from "../types/index";
 import { Cate, Enquiry } from "../types/enquiry";
 import { Job, JobApplication } from "@/types/career";
 import { Workshop, WorkshopRegistration } from "@/types/workshop";
-const API_URL = "http://localhost:5000/api";
-export const BACKEND_URL = "http://localhost:5000";
+const API_URL = "https://api.apnavision.in/api";
+export const BACKEND_URL = "https://api.apnavision.in";
 axios.defaults.withCredentials = true;
 
-// const API_URL = "http://13.201.98.33:5000/api";
-// export const BACKEND_URL = "http://13.201.98.33:5000";
 export const getProducts = async (): Promise<Product[]> => {
   const response = await axios.get(`${API_URL}/products`);
   return response.data;

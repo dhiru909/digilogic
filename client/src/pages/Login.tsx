@@ -26,6 +26,7 @@ const handleSubmit = async (e: React.FormEvent) => {
     try {
       const user = await login(email, password);
       setUser(user);
+      
     //   navigate('/');
       window.location.reload()
     } catch (err) {

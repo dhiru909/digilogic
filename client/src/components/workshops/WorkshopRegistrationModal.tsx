@@ -202,7 +202,7 @@ export default function WorkshopRegistrationModal({
               //   className="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
             />
           </div>
-
+          
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Payment Proof

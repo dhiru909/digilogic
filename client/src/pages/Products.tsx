@@ -9,34 +9,6 @@ import { useProductFiltering } from '@/hooks/useProductFiltering';
 import { productCategories } from '../data/productCategories';
 import ProductsLoading from '@/components/products/ProductsLoading';
 import ProductsError from '@/components/products/ProductsError';
-// Mock data - In a real app, this would come from an API
-// const mockProducts: Product[] = [
-//   {
-//     _id: '1',
-//     name: 'Arduino Starter Kit',
-//     description: 'Complete kit for beginners with Arduino UNO board and components',
-//     price: 99.99,
-//     image: 'https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?auto=format&fit=crop&w=800',
-//     category: 'starter-kits'
-//   },
-//   {
-//     _id: '2',
-//     name: 'Advanced Microcontroller Kit',
-//     description: 'Professional kit with advanced components for complex projects',
-//     price: 199.99,
-//     image: 'https://images.unsplash.com/photo-1553406830-ef2513450d76?auto=format&fit=crop&w=800',
-//     category: 'advanced'
-//   },
-//   {
-//     _id: '3',
-//     name: 'Digital Logic Training Board',
-//     description: 'Educational board for learning digital logic concepts',
-//     price: 149.99,
-//     image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800',
-//     category: 'education'
-//   }
-// ];
-
 const categories: ProductCategory[] = [
   {
     id: 'starter-kits',
@@ -57,7 +29,7 @@ const categories: ProductCategory[] = [
 
 export default function Products() {
   const { products, loading, error, refetch } = useProducts();
-  const { filters, setFilters, filteredProducts } = useProductFiltering(products!);
+  const { filters, setFilters, filteredProducts } = useProductFiltering(products);
   // const [productEnquire, setProductEnquire] = useState<string | null>(null);
   // const [filters, setFilters] = useState<Filters>({
   //   category: '',
@@ -133,12 +105,12 @@ export default function Products() {
         
         <div className="md:w-3/4 ">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredProducts.map(product => (
+            {filteredProducts?.map(product => (
               <ProductCard onEnquire={showFormHandler} key={product._id} product={product} />
             ))}
           </div>
           
-          {filteredProducts.length === 0 && (
+          {filteredProducts?.length === 0 && (
             <div className="text-center py-12">
               <p className="text-gray-600">No products found matching your criteria.</p>
             </div>

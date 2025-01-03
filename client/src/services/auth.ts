@@ -1,11 +1,9 @@
 import axios from "axios";
 import { Details, User, UserRole } from "../types/index";
-const API_URL = "http://localhost:5000/api";
-export const BACKEND_URL = "http://localhost:5000";
+const API_URL = "https://api.apnavision.in/api";
+export const BACKEND_URL = "https://api.apnavision.in";
 axios.defaults.withCredentials = true;
 
-// const API_URL = "http://13.201.98.33:5000/api";
-// export const BACKEND_URL = "http://13.201.98.33:5000";
 export async function login(email: string, password: string): Promise<User> {
   const response = await axios.post(
     `${API_URL}/auth/login`,

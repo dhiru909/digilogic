@@ -108,17 +108,38 @@ export default function Navbar() {
             className="md:hidden transition animate-in slide-in-from-top-3 fade-in-15  duration-500  top-16 left-0 w-full bg-background shadow-lg z-10"
           >
             <div className="flex flex-col items-center space-y-4 py-4">
-              <Link to="/products" className="text-primary hover:text-blue-600">
+              <Link
+                to="/products"
+                onClick={() => {
+                  setMenuOpen(false);
+                }}
+                className="text-primary hover:text-blue-600"
+              >
                 Products
               </Link>
-              <Link to="/about" className="text-primary hover:text-blue-600">
+              <Link
+                to="/about"
+                onClick={() => {
+                  setMenuOpen(false);
+                }}
+                className="text-primary hover:text-blue-600"
+              >
                 About
               </Link>
-              <Link to="/careers" className="text-primary hover:text-blue-600">
+              <Link
+                to="/careers"
+                onClick={() => {
+                  setMenuOpen(false);
+                }}
+                className="text-primary hover:text-blue-600"
+              >
                 Careers
               </Link>
               <Link
                 to="/workshops"
+                onClick={() => {
+                  setMenuOpen(false);
+                }}
                 className="text-primary hover:text-blue-600"
               >
                 Workshops

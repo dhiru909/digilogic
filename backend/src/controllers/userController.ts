@@ -20,13 +20,16 @@ const generateToken = (userId: string, role: string): string => {
     })
 }
 const setCookieOptions = {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax' as const,
+    httpOnly: false,
+    secure: true,
+    // secure: process.env.NODE_ENV === 'production',
+    sameSite: 'none' as const,
+    path: '/',
+    domain: '.apnavision.in',
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
 }
-
 const setTokenCookie = (res: Response, token: string) => {
+    // res.setHeader('Set-Cookie', `token=${token}; Domain=http://www.apnavision.in; Path=/; Expires=Tue, 07 Jan 2025 21:30:44 GMT; SameSite=None`)
     res.cookie('token', token, setCookieOptions)
 }
 
@@ -195,24 +198,44 @@ const getUserDetails = asyncHandler(
                 'status workshopId'
             )
                 .sort('-createdAt')
-                .populate('workshopId', 'title date link duration location status')
-                const workshopRegistrations=workshopRegistrationsRaw.map((workshopRegistration)=>{
-                const _id= workshopRegistration._id
-                const status = workshopRegistration.status
-                // @ts-ignore
-                const workshopName = workshopRegistration.workshopId.title
-                // @ts-ignore
-                const link = workshopRegistration.status==="confirmed"? workshopRegistration.workshopId.link  :"" 
-                // @ts-ignore
-                const date = workshopRegistration.workshopId.date   
-                // @ts-ignore
-                const duration = workshopRegistration.workshopId.duration 
-                // @ts-ignore
-                const location = workshopRegistration.workshopId.location
-                // @ts-ignore
-                const workshopStatus = workshopRegistration.workshopId.status
-                return { _id, status, workshopName, link, date, duration, location, workshopStatus }  
-            })
+                .populate(
+                    'workshopId',
+                    'title date link duration location status'
+                )
+            const workshopRegistrations = workshopRegistrationsRaw.map(
+                (workshopRegistration) => {
+                    const _id = workshopRegistration._id
+                    const status = workshopRegistration.status
+                    // @ts-ignore
+                    const workshopName = workshopRegistration.workshopId.title
+                    // @ts-ignore
+                    const link =
+                        workshopRegistration.status === 'confirmed'
+                            ? // @ts-ignore
+                              workshopRegistration.workshopId.link
+                            : ''
+                    // @ts-ignore
+                    const date = workshopRegistration.workshopId.date
+                    // @ts-ignore
+                    const duration = workshopRegistration.workshopId.duration
+                    // @ts-ignore
+                    const location = workshopRegistration.workshopId.location
+                    // @ts-ignore
+                    const workshopStatus =
+                        // @ts-ignore
+                        workshopRegistration.workshopId.status
+                    return {
+                        _id,
+                        status,
+                        workshopName,
+                        link,
+                        date,
+                        duration,
+                        location,
+                        workshopStatus,
+                    }
+                }
+            )
             res.json({
                 user,
                 applications,
