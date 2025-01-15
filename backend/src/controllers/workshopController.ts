@@ -59,10 +59,13 @@ export const registerForWorkshop = asyncHandler(
         const paymentProofFile = req.file
 
         // Validate workshop exists and has capacity
-        const workshop = await Workshop.findById(workshopId)
+        const workshop = await Workshop.findOneAndUpdate({_id:workshopId},{
+            $inc: { registeredCount: 1 }
+        })
         if (!workshop) {
             throw new AppError(404, 'Workshop not found')
         }
+
         const hasCapacity = workshop.capacity - workshop.registeredCount
         // const hasCapacity = await validateWorkshopCapacity(workshopId);
         if (hasCapacity < 1) {

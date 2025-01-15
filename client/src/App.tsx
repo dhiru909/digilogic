@@ -20,8 +20,12 @@ import orientationImage from "../public/portrait.svg";
 function NotFound() {
   return (
     <div className="flex flex-col items-center justify-center h-screen">
-      <h1 className="text-6xl font-bold">404</h1>
-      <p className="text-2xl">Page not found</p>
+      {/* <h1 className="text-6xl font-bold">404</h1>
+      <p className="text-2xl">Page not found</p> */}
+      <img
+        className="max-h-[90%] mix-blend-difference"
+        src="./../public/404.svg"
+      ></img>
     </div>
   );
 }
@@ -42,7 +46,8 @@ export default function App() {
 
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <div style={{ pointerEvents: "none" }}
+      <div
+        style={{ pointerEvents: "none" }}
         className={`h-[100svh] flex flex-col fixed top-0 left-0 z-30 w-[100vw] items-center  justify-center align-middle text-center bg-background ${
           orientation == "landscape-primary" ? "block" : "hidden"
         }`}
@@ -79,4 +84,3 @@ export default function App() {
     </ThemeProvider>
   );
 }
-
